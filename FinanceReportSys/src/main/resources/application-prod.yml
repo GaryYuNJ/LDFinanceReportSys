@@ -1,0 +1,11 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring:
+    datasource:
+        #name: prodtest
+        url: jdbc:mysql://42.51.4.198:3336/shirotest?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+        username: root
+        password: root
+  
+logging:
+   level:
+      ROOT: WARN
