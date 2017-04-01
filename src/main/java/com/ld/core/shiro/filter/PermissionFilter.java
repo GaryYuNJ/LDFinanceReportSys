@@ -83,8 +83,13 @@ public class PermissionFilter extends AccessControlFilter {
 	            saveRequest(request);  
 	            WebUtils.issueRedirect(request, response, ShiroFilterUtils.LOGIN_URL);  
 	        } else {  
-	            if (StringUtils.hasText(ShiroFilterUtils.UNAUTHORIZED)) {//如果有未授权页面跳转过去  
-	                WebUtils.issueRedirect(request, response, ShiroFilterUtils.UNAUTHORIZED);  
+	            if (StringUtils.hasText(ShiroFilterUtils.UNAUTHORIZED)) {//如果有未授权页面跳转过去 
+	            	try{
+	            		WebUtils.issueRedirect(request, response, ShiroFilterUtils.UNAUTHORIZED);  
+	            	}catch(Exception e){
+	            		e.printStackTrace();
+	            	}
+	                
 	            } else {//否则返回401未授权状态码  
 	                WebUtils.toHttp(response).sendError(HttpServletResponse.SC_UNAUTHORIZED);  
 	            }  

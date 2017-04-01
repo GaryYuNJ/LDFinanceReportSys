@@ -62,7 +62,7 @@ public class UserLoginController extends BaseController {
 	@RequestMapping(value="login",method=RequestMethod.GET)
 	public ModelAndView login(){
 		
-		return new ModelAndView("user/login");
+		return new ModelAndView("login");
 	}
 	/**
 	 * 注册跳转
@@ -71,7 +71,7 @@ public class UserLoginController extends BaseController {
 	@RequestMapping(value="register",method=RequestMethod.GET)
 	public ModelAndView register(){
 		
-		return new ModelAndView("user/register");
+		return new ModelAndView("register");
 	}
 	/**
 	 * 注册 && 登录
@@ -119,10 +119,10 @@ public class UserLoginController extends BaseController {
 	 */
 	@RequestMapping(value="submitLogin",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> submitLogin(UUser entity,Boolean rememberMe,HttpServletRequest request){
+	public Map<String,Object> submitLogin(UUser entity,HttpServletRequest request){
 		
 		try {
-			entity = TokenManager.login(entity,rememberMe);
+			entity = TokenManager.login(entity,false);
 			resultMap.put("status", 200);
 			resultMap.put("message", "登录成功");
 			
@@ -143,7 +143,7 @@ public class UserLoginController extends BaseController {
 			LoggerUtils.fmtDebug(getClass(), "获取登录之前的URL:[%s]",url);
 			//如果登录之前没有地址，那么就跳转到首页。
 			if(StringUtils.isBlank(url)){
-				url = request.getContextPath() + "/user/index.shtml";
+				url = request.getContextPath() + "/user/userInfo.shtml";
 			}
 			//跳转地址
 			resultMap.put("back_url", url);

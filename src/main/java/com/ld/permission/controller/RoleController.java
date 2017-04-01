@@ -89,7 +89,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value="mypermission",method=RequestMethod.GET)
 	public ModelAndView mypermission(){
-		return new ModelAndView("permission/mypermission");
+		return new ModelAndView("user/mypermission");
 	}
 	/**
 	 * 我的权限 bootstrap tree data

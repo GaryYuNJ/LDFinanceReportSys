@@ -52,10 +52,10 @@ public class UserCoreController extends BaseController {
 	 * 个人资料
 	 * @return
 	 */
-	@RequestMapping(value="index",method=RequestMethod.GET)
+	@RequestMapping(value="userInfo",method=RequestMethod.GET)
 	public ModelAndView userIndex(){
 		
-		return new ModelAndView("user/index");
+		return new ModelAndView("user/userInfo");
 	}
 	
 	
