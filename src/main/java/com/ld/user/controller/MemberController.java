@@ -60,24 +60,29 @@ public class MemberController extends BaseController {
 		map.put("findContent", findContent);
 		Pagination<UUser> page = userService.findByPage(map,pageNo,pageSize);
 		map.put("page", page);
+		map.put("pageIndex", 0);
 		return new ModelAndView("member/list");
 	}
+	
 	/**
 	 * 在线用户管理
 	 * @return
 	 */
 	@RequestMapping(value="online")
-	public ModelAndView online(){
+	public ModelAndView online(ModelMap map){
 		List<UserOnlineBo> list = customSessionManager.getAllUser();
+		map.put("pageIndex", 1);
 		return new ModelAndView("member/online","list",list);
 	}
+	
 	/**
 	 * 在线用户详情
 	 * @return
 	 */
 	@RequestMapping(value="onlineDetails/{sessionId}",method=RequestMethod.GET)
-	public ModelAndView onlineDetails(@PathVariable("sessionId")String sessionId){
+	public ModelAndView onlineDetails(@PathVariable("sessionId")String sessionId,ModelMap map){
 		UserOnlineBo bo = customSessionManager.getSession(sessionId);
+		map.put("pageIndex", 1);
 		return new ModelAndView("member/onlineDetails","bo",bo);
 	}
 	/**

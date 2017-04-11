@@ -19,13 +19,15 @@
 <span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span>
 <!-- JS -->
 <script src="<c:url value="/js/jquery.js" />"></script>
+<script src="<c:url value="/js/jquery-form.3.50.js" />"></script>
 <!-- jQuery -->
-<script src="<c:url value="/js/bootstrap.js" />"></script>
+<script src="<c:url value="/js/bootstrap.min.js" />"></script>
 <!-- Bootstrap -->
 <script src="<c:url value="/js/jquery-ui-1.9.2.custom.min.js" />"></script>
 <!-- jQuery UI -->
 <!-- jQuery Flot -->
 
+<script src="<c:url value="/js/common/layer/layer.js" />"></script>
 <!-- Date picker -->
 <script src="<c:url value="/js/jstree.min.js" />"></script>
 <script src="<c:url value="/js/bootstrap-table.min.js" />"></script>
@@ -36,10 +38,14 @@
 <script src="<c:url value="/js/bootstrap-datetimepicker.min.js" />"></script>
 <script src="<c:url value="/js/bootstrap-datetimepicker.zh-CN.js" />"></script>
 <script src="<c:url value="/js/bootstrap-select.min.js" />"></script>
+<script src="<c:url value="/js/bootstrap-treeview.js" />"></script>
+
 <script src="<c:url value="/js/defaults-zh_CN.min.js" />"></script>
 
 <script src="<c:url value="/js/fileinput.min.js" />"></script>
 <script src="<c:url value="/js/fileinput_locale_zh.js" />"></script>
+<script src="<c:url value="/js/user.login.js" />"></script>
+<script src="<c:url value="/js/common.js" />"></script>
 
 <script type="text/javascript">
 $("#nav li:eq(${pageIndex}) a").addClass("open");

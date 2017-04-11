@@ -56,6 +56,7 @@ public class UserRoleAllocationController extends BaseController {
 		modelMap.put("findContent", findContent);
 		Pagination<UserRoleAllocationBo> boPage = userService.findUserAndRole(modelMap,pageNo,pageSize);
 		modelMap.put("page", boPage);
+		modelMap.put("pageIndex", 1);
 		return new ModelAndView("role/allocation");
 	}
 	

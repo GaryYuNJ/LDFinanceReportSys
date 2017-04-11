@@ -52,6 +52,7 @@ public class RoleController extends BaseController {
 	public ModelAndView index(String findContent,ModelMap modelMap){
 		modelMap.put("findContent", findContent);
 		Pagination<URole> role = roleService.findPage(modelMap,pageNo,pageSize);
+		modelMap.put("pageIndex", 0);
 		return new ModelAndView("role/index","page",role);
 	}
 	/**
@@ -89,7 +90,11 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value="mypermission",method=RequestMethod.GET)
 	public ModelAndView mypermission(){
-		return new ModelAndView("user/mypermission");
+		
+		ModelAndView mav = new ModelAndView("user/mypermission");
+		// 页面菜单样式需要
+		mav.addObject("pageIndex", 3);
+		return mav;
 	}
 	/**
 	 * 我的权限 bootstrap tree data

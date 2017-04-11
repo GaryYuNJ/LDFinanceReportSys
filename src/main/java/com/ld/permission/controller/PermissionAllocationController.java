@@ -58,6 +58,7 @@ public class PermissionAllocationController extends BaseController {
 		modelMap.put("findContent", findContent);
 		Pagination<RolePermissionAllocationBo> boPage = roleService.findRoleAndPermissionPage(modelMap,pageNo,pageSize);
 		modelMap.put("page", boPage);
+		modelMap.put("pageIndex", 3);
 		return new ModelAndView("permission/allocation");
 	}
 	
@@ -69,7 +70,7 @@ public class PermissionAllocationController extends BaseController {
 	@RequestMapping(value="selectPermissionById")
 	@ResponseBody
 	public List<UPermissionBo> selectPermissionById(Long id){
-		List<UPermissionBo> permissionBos = permissionService.selectPermissionById(id);
+		List<UPermissionBo> permissionBos = permissionService.selectPermissionByRoleId(id);
 		return permissionBos;
 	}
 	/**

@@ -1,7 +1,7 @@
  
 /**
  * @author 
- * @ps 你可以当作是一个闭包 | 封装的Demo
+ * @ps 
  */
 (function(o,w){
 	if(!w.so)w.so = {};
@@ -35,3 +35,5 @@
 		
 	})(so);
 })($,window);
+
+

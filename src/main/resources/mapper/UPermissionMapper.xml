@@ -43,7 +43,7 @@
 		return StringUtils.equals(roleId,marker);
 	}
   -->
-  <select id="selectPermissionById" resultType="com.ld.permission.bo.UPermissionBo">
+  <select id="selectPermissionByRoleId" resultType="com.ld.permission.bo.UPermissionBo">
   	<!--原来的语句，应该是没错误。
   		有同学说有错误，请给出mysql版本号。
   		但是发现一个问题（我没尝试），在mysql 5.7版本中，没有结果集。故做了一下修改。
@@ -52,11 +52,15 @@
 		left join (select id from u_role where id = #{id,jdbcType=BIGINT}) ur on ur.id = urp.rid
 		group by up.id
   	 -->
-  	 select up.id,ur.id roleId,up.name,up.url,min(ifnull(ur.id,0))marker from u_permission up
-		left join u_role_permission urp on urp.pid = up.id
-		left join (select id from u_role where id = #{id,jdbcType=BIGINT}) ur on ur.id = urp.rid
+		select distinct up.id,
+		urp.rid roleId,
+		up.name,up.url,
+		min(ifnull(urp.rid,0)) marker 
+		from u_permission up
+		left join (select rid, pid from u_role_permission where rid=#{roleId,jdbcType=BIGINT}) urp on urp.pid = up.id
 		group by up.id
   </select>
+  
   <!-- 根据用ID查询permission -->
   <select id="findPermissionByUserId" resultType="java.lang.String">
   		select p.url from u_permission p , u_role_permission rp, u_user_role ur 

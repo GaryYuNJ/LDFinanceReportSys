@@ -1,5 +1,6 @@
 package com.ld.user.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -54,19 +55,32 @@ public class UserCoreController extends BaseController {
 	 */
 	@RequestMapping(value="userInfo",method=RequestMethod.GET)
 	public ModelAndView userIndex(){
-		
-		return new ModelAndView("user/userInfo");
+		Date lastLoginTime = TokenManager.getToken().getLastLoginTime();
+		Date createTime = TokenManager.getToken().getCreateTime();
+		ModelAndView mav = new ModelAndView("user/userInfo");
+		mav.addObject("lastLoginTime", lastLoginTime);  
+		mav.addObject("createTime", createTime);  
+		mav.addObject("pageIndex", 0);
+		return mav;
 	}
 	
-	
 	/**
-	 * 偷懒一下，通用页面跳转
+	 * 偷通用页面跳转
 	 * @param page
 	 * @return
 	 */
 	@RequestMapping(value="{page}",method=RequestMethod.GET)
 	public ModelAndView toPage(@PathVariable("page")String page){
-		return new ModelAndView(String.format("user/%s", page));
+		
+		ModelAndView mav = new ModelAndView(String.format("user/%s", page));
+		
+		// 页面菜单样式需要
+		if("updatePswd".equals(page)){
+			mav.addObject("pageIndex", 2);
+		}else if("updateSelf".equals(page)){
+			mav.addObject("pageIndex", 1);
+		}
+		return mav;
 	}
 	/**
 	 * 密码修改

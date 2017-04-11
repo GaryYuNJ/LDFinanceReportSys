@@ -19,7 +19,8 @@ public interface UPermissionMapper {
 
     int updateByPrimaryKey(UPermission record);
 
-	List<UPermissionBo> selectPermissionById(Long id);
+	List<UPermissionBo> selectPermissionByRoleId(Long roleId);
+	
 	//根据用户ID获取权限的Set集合
 	Set<String> findPermissionByUserId(Long id);
 }

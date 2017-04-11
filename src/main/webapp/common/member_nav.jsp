@@ -9,16 +9,10 @@
 				<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
 				<ul id="nav">
 					<li class="has_sub">
-						<a href="<c:url value="/user/userInfo.shtml" />"><i class="icon-list-alt"></i> 个人资料 </a>
+						<a href="<c:url value="/member/list.shtml" />"><i class="icon-list-alt"></i> 用户列表 </a>
 					</li>
 					<li class="has_sub">
-						<a href="<c:url value="/user/updateSelf.shtml" />"><i class="icon-list-alt"></i> 资料修改 </a>
-					</li>
-					<li class="has_sub">
-						<a href="<c:url value="/user/updatePswd.shtml" />"><i class="icon-list-alt"></i> 密码修改</a>
-					</li>
-					<li class="has_sub">
-						<a href="<c:url value="/role/mypermission.shtml" />"><i class="icon-list-alt"></i> 我的权限 </a>
+						<a href="<c:url value="/member/online.shtml" />"><i class="icon-list-alt"></i> 在线用户 </a>
 					</li>
 			</div>
 			<!-- Sidebar ends -->

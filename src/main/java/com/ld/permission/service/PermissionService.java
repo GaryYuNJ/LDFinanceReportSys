@@ -26,7 +26,7 @@ public interface PermissionService {
 
 	Pagination<UPermission> findPage(Map<String,Object> resultMap, Integer pageNo,
 			Integer pageSize);
-	List<UPermissionBo> selectPermissionById(Long id);
+	List<UPermissionBo> selectPermissionByRoleId(Long roleId);
 
 	Map<String, Object> addPermission2Role(Long roleId,String ids);
 
