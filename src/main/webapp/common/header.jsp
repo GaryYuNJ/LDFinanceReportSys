@@ -51,6 +51,7 @@ var rootUri="${rootUri}";
 					<div class="login-header navbar-brand" style="width: 280px;margin-top: 3px;margin-left: 2px;"></div>
 			     
 			          <ul class="nav navbar-nav">
+			          
 						<li class="dropdown">
 							<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="<c:url value="/user/userInfo" />">
 								个人中心<span class="caret"></span>
@@ -62,6 +63,7 @@ var rootUri="${rootUri}";
 								<li><a href="<c:url value="/role/mypermission.shtml" />">我的权限</a></li>
 							</ul>
 						</li>	  
+						<shiro:hasPermission  name="/member/list.shtml">
 						<li class="dropdown">
 							<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="<c:url value="/user/userInfo" />">
 								用户中心<span class="caret"></span>
@@ -71,6 +73,8 @@ var rootUri="${rootUri}";
 								<li><a href="<c:url value="/member/online.shtml" />">在线用户</a></li>
 							</ul>
 						</li>	
+						</shiro:hasPermission>
+						<shiro:hasPermission  name="/permission/index.shtml">
 						<li class="dropdown">
 							<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="<c:url value="/user/userInfo" />">
 								权限管理<span class="caret"></span>
@@ -82,12 +86,14 @@ var rootUri="${rootUri}";
 								<li><a href="<c:url value="/permission/allocation.shtml" />">权限分配</a></li>
 							</ul>
 						</li>	
+						</shiro:hasPermission>
+						
 			          </ul>
 			          
 			           <ul class="nav navbar-nav  pull-right">
 						<li class="dropdown" style="color:#fff;">
-							<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown"  href="<c:url value="/user/userInfo" />" class="dropdown-toggle qqlogin">
-								<shiro:principal property="nickname"/> 
+							<a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle qqlogin">
+								<shiro:principal property="nickname"/>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu extend-top" >

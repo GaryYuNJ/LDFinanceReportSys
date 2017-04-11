@@ -6,7 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/init/sql"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <property name="context-root" value="shiro.demo"/>
         <property name="java-output-path" value="/SpringMVC-Mybatis-Shiro-redis-0.2/target/classes"/>
+        <property name="context-root" value="ldfrs"/>
     </wb-module>
 </project-modules>
