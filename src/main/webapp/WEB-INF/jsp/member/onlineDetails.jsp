@@ -55,7 +55,7 @@
 								<td>${bo.timeout}</td>
 							</tr>
 							<tr>
-								<th>昵称</th>
+								<th>姓名</th>
 								<td>${bo.nickname}</td>
 							</tr>
 							<tr>

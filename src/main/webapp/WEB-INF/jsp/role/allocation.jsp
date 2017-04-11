@@ -27,7 +27,7 @@
 						<div class="well">
 					      <div class="form-group">
 					        <input type="text" class="form-control" style="width: 300px;" value="${findContent}" 
-					        			name="findContent" id="findContent" placeholder="输入用户昵称 / 用户帐号">
+					        			name="findContent" id="findContent" placeholder="输入用户姓名 / 用户帐号">
 					      </div>
 					     <span class=""> 
 				         	<button type="submit" class="btn btn-primary">查询</button>
@@ -38,7 +38,7 @@
 						<input type="hidden" id="selectUserId">
 						<tr>
 							<th width="5%"><input type="checkbox" id="checkAll"/></th>
-							<th width="10%">用户昵称</th>
+							<th width="10%">用户姓名</th>
 							<th width="10%">手机号/帐号</th>
 							<th width="10%">状态</th>
 							<th width="55%">拥有的角色</th>

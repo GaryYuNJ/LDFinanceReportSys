@@ -25,7 +25,7 @@
 					<div class="widget">
 						<table class="table table-striped table-bordered table-hover">
 							<tr>
-								<th>昵称</th>
+								<th>姓名</th>
 								<td><shiro:principal property="nickname"/></td>
 							</tr>
 							<tr>

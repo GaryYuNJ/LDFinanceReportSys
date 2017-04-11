@@ -23,8 +23,8 @@
 						<form id="formId" enctype="multipart/form-data" action="<c:url value="/user/updateSelf.shtml" />"  method="post">
 						  <input type="hidden" value="<shiro:principal property="id"/>" name="id"/>
 						  <div class="form-group">
-						    <label for="nickname">昵称</label>
-						    <input type="text" class="form-control" autocomplete="off" id="nickname" maxlength="8" name="nickname" value="<shiro:principal property="nickname"/>" placeholder="请输入昵称">
+						    <label for="nickname">姓名</label>
+						    <input type="text" class="form-control" autocomplete="off" id="nickname" maxlength="8" name="nickname" value="<shiro:principal property="nickname"/>" placeholder="请输入姓名">
 						  </div>
 						  <div class="form-group">
 						    <label for="email">手机号/账号（不准修改）</label>
@@ -66,7 +66,7 @@
 	    	beforeSubmit:function(){
 	    		//判断参数
 	    		if($.trim($("#nickname").val()) == ''){
-		    		layer.msg('昵称不能为空！',function(){});
+		    		layer.msg('姓名不能为空！',function(){});
 		    		$("#nickname").parent().removeClass('has-success').addClass('has-error');
 		    		return !1;
 	    		}else{

@@ -31,7 +31,7 @@ public class UUser implements Serializable{
 	//1:有效
 	public static final Long _1 = new Long(1);
 	private Long id;
-	/**昵称*/
+	/**姓名*/
     private String nickname;
     /**手机号 | 登录帐号*/
     private String mobile;

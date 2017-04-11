@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `u_user`;
 
 CREATE TABLE `u_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(20) DEFAULT NULL COMMENT '用户昵称',
+  `nickname` varchar(20) DEFAULT NULL COMMENT '用户姓名',
   `mobile` varchar(15) NOT NULL UNIQUE COMMENT '手机号|登录帐号',
   `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
   `pswd` varchar(32) NOT NULL COMMENT '密码',

@@ -45,7 +45,7 @@ CREATE TABLE `u_role_permission` (
 DROP TABLE IF EXISTS `u_user`;
 CREATE TABLE `u_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(20) DEFAULT NULL COMMENT '用户昵称',
+  `nickname` varchar(20) DEFAULT NULL COMMENT '用户姓名',
   `email` varchar(128) DEFAULT NULL COMMENT '邮箱|登录帐号',
   `pswd` varchar(32) DEFAULT NULL COMMENT '密码',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
