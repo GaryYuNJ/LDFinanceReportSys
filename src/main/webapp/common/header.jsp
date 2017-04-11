@@ -90,7 +90,7 @@ var rootUri="${rootUri}";
 								<shiro:principal property="nickname"/> 
 								<span class="caret"></span>
 							</a>
-							<ul class="dropdown-menu" >
+							<ul class="dropdown-menu extend-top" >
 								<li><a href="javascript:void(0);" onclick="logout();">退出登录</a></li>
 							</ul>
 						</li>	

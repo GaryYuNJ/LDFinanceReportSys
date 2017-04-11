@@ -1,2 +1,4 @@
 
 .nav > li:hover .dropdown-menu{display:block}
+
+.pull-right  .extend-top{right:auto;left:auto}
