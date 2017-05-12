@@ -85,16 +85,16 @@
 	</bean>
 
 	<!-- 视图解析器 -->
-	<!-- 配置freeMarker视图解析器 -->
+	<!-- 配置freeMarker视图解析器
 	<bean id="viewResolverFtl"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="viewClass" value="com.ld.core.freemarker.extend.FreeMarkerViewExtend" />
-		<!-- 把Freemarker 扩展一下，把相关属性加入进去。。。 -->
 		<property name="contentType" value="text/html; charset=utf-8" />
 		<property name="cache" value="true" />
 		<property name="suffix" value=".ftl" />
 		<property name="order" value="0" />
 	</bean>
+	 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="order" value="2"></property>
@@ -106,7 +106,7 @@
 
 
 
-	<!-- 配置freeMarker 拓展-->
+	<!-- 配置freeMarker 拓展
 	<bean id="freemarkerConfig"
 		class="com.ld.core.freemarker.extend.FreeMarkerConfigExtend">
 		<property name="templateLoaderPath">
@@ -122,7 +122,7 @@
 			<value>utf-8</value>
 		</property>
 		<property name="freemarkerSettings">
-			<props><!-- 315360000 -->
+			<props>
 					<prop key="template_update_delay">0</prop>
 					<prop key="defaultEncoding">UTF-8</prop>
 					<prop key="url_escaping_charset">UTF-8</prop>
@@ -131,7 +131,6 @@
 					<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
 					<prop key="date_format">yyyy-MM-dd</prop>
 					<prop key="time_format">HH:mm:ss</prop>
-	<!--			<prop key="number_format">0.######</prop>-->
 				<prop key="number_format">#</prop>
 				<prop key="whitespace_stripping">true</prop>
 				<prop key="auto_import">
@@ -142,6 +141,7 @@
 			</props>
 		</property>
 	</bean>
+	-->
 	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
 	<!--===============通用视图解析器 end===============-->
 	

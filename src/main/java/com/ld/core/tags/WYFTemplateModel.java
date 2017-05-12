@@ -4,7 +4,7 @@ package com.ld.core.tags;
 import java.io.IOException;
 import java.util.Map;
 
-import com.ld.core.freemarker.utils.FreemarkerTagUtil;
+//import com.ld.core.freemarker.utils.FreemarkerTagUtil;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -47,9 +47,9 @@ public abstract class WYFTemplateModel implements TemplateDirectiveModel{
 		Map<String, TemplateModel> paramWrap = putValue(params);
 		
 		
-		Map<String, TemplateModel> origMap = FreemarkerTagUtil.convertToTemplateModel(env, paramWrap);
-		body.render(env.getOut());
-		FreemarkerTagUtil.clearTempleModel(env, paramWrap, origMap);
+//		Map<String, TemplateModel> origMap = FreemarkerTagUtil.convertToTemplateModel(env, paramWrap);
+//		body.render(env.getOut());
+//		FreemarkerTagUtil.clearTempleModel(env, paramWrap, origMap);
 	}
 
 	/**

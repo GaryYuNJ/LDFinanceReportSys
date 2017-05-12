@@ -30,21 +30,8 @@ import com.ld.user.service.UUserService;
 /**
  * 
  * 
- * 
- * <p>
- * 
- * 用户登录相关，不需要做登录限制
- * 
- * <p>
- * 
- * 区分　责任人　日期　　　　说明<br/>
- *  　<br/>
- * <p>
- * *******
- * <p>
  * @author 
  *   
- * @version 1.0, <br/>
  * 
  */
 @Controller
@@ -126,11 +113,6 @@ public class UserLoginController extends BaseController {
 			resultMap.put("status", 200);
 			resultMap.put("message", "登录成功");
 			
-			
-			/**
-			 * shiro 获取登录之前的地址
-			 * 之前0.1版本这个没判断空。
-			 */
 			SavedRequest savedRequest = WebUtils.getSavedRequest(request);
 			String url = null ;
 			if(null != savedRequest){

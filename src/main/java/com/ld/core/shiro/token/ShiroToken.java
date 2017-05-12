@@ -3,22 +3,6 @@ package com.ld.core.shiro.token;
 import org.apache.shiro.authc.UsernamePasswordToken;
 /**
  * 
- * 开发公司：在线工具 <p>
- * 版权所有：© <p>
- * 博客地址：http:///blog/  <p>
- * <p>
- * 
- * Shiro token
- * 
- * <p>
- * 
- * 区分　责任人　日期　　　　说明<br/>
- * 2016年6月2日 　<br/>
- *
- * @author 
- *   
- * @version 1.0,2016年6月2日 <br/>
- * 
  */
 public class ShiroToken extends UsernamePasswordToken  implements java.io.Serializable{
 	

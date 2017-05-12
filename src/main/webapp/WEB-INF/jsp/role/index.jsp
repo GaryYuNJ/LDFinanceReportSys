@@ -55,9 +55,9 @@
 									<tr>
 										<td><input value="${it.id}" check='box' type="checkbox" /></td>
 										<td>${it.name}</td>
-										<td>${it.type}</td>
+										<td>${it.code}</td>
 										<td>
-											<c:if test="${it.type != '888888' }">
+											<c:if test="${it.code != '888888' }">
 												<shiro:hasPermission  name="/role/deleteRoleById.shtml">
 													<i class="glyphicon glyphicon-remove"></i>
 													<a href="javascript:deleteById([${it.id}]);">删除</a>
@@ -102,7 +102,7 @@
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">角色类型:</label>
-				            <input type="text" class="form-control" id="type" name="type"  placeholder="请输入角色类型  [字母 + 数字] 6位">
+				            <input type="text" class="form-control" id="code" name="code"  placeholder="请输入角色类型  [字母 + 数字] 6位">
 				          </div>
 				        </form>
 				      </div>
@@ -164,16 +164,16 @@
 		//--添加角色--
 		function addRole(){
 			var name = $('#name').val(),
-				type = $('#type').val();
+				code = $('#code').val();
 			if($.trim(name) == ''){
 				return layer.msg('角色名称不能为空。',so.default),!1;
 			}
-			if(!/^[a-z0-9A-Z]{6}$/.test(type)){
+			if(!/^[a-z0-9A-Z]{6}$/.test(code)){
 				return layer.msg('角色类型为6数字字母。',so.default),!1;
 			}
 
 			var load = layer.load();
-			$.post('<c:url value="/role/addRole.shtml "/>',{name:name,type:type},function(result){
+			$.post('<c:url value="/role/addRole.shtml "/>',{name:name,code:code},function(result){
 				layer.close(load);
 				if(result && result.status != 200){
 					return layer.msg(result.message,so.default),!1;
