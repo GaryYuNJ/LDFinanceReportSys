@@ -32,10 +32,31 @@ public class URole  implements Serializable{
     private String name;
     /**角色类型*/
     private String code;
+    
+    private Long appointmentId;
     //***做 role --> permission 一对多处理
     private List<UPermission> permissions = new LinkedList<UPermission>();
     
-    public String getCode() {
+    private UAppointments appointment;
+    
+    
+	public Long getAppointmentId() {
+		return appointmentId;
+	}
+
+	public void setAppointmentId(Long appointmentId) {
+		this.appointmentId = appointmentId;
+	}
+
+	public UAppointments getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(UAppointments appointment) {
+		this.appointment = appointment;
+	}
+
+	public String getCode() {
 		return code;
 	}
 

@@ -32,13 +32,13 @@ import com.ld.permission.service.RoleService;
 public class CommonController extends BaseController {
 	@Resource
 	RoleService roleService;
-	@RequestMapping("refreshDB")
-	@ResponseBody
-	public Map<String,Object> refreshDB(){
-		roleService.initData();
-		resultMap.put("status", 200);
-		return resultMap;
-	}
+//	@RequestMapping("refreshDB")
+//	@ResponseBody
+//	public Map<String,Object> refreshDB(){
+//		roleService.initData();
+//		resultMap.put("status", 200);
+//		return resultMap;
+//	}
 	/**
 	 * 404错误
 	 * @param request

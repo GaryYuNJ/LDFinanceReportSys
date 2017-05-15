@@ -48,6 +48,7 @@
 							<th><input type="checkbox" id="checkAll"/></th>
 							<th>角色名称</th>
 							<th>角色类型</th>
+							<th>对应职务</th>
 							<th>操作</th>
 						</tr>
 						<c:if test="${page != null}">
@@ -56,6 +57,7 @@
 										<td><input value="${it.id}" check='box' type="checkbox" /></td>
 										<td>${it.name}</td>
 										<td>${it.code}</td>
+										<td>${it.appointment.name}</td>
 										<td>
 											<c:if test="${it.code != '888888' }">
 												<shiro:hasPermission  name="/role/deleteRoleById.shtml">
@@ -102,6 +104,10 @@
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">角色类型:</label>
+				            <input type="text" class="form-control" id="code" name="code"  placeholder="请输入角色类型  [字母 + 数字] 6位">
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">对应职务:</label>
 				            <input type="text" class="form-control" id="code" name="code"  placeholder="请输入角色类型  [字母 + 数字] 6位">
 				          </div>
 				        </form>
