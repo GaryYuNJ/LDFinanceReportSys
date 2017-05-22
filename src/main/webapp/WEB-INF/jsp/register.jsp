@@ -10,9 +10,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="">
   <!-- Stylesheets -->
-  <link href="<c:url value="/css/bootstrap.css" />" rel="stylesheet">
+  <link href="<c:url value="/style/bootstrap.css" />" rel="stylesheet">
   <link rel="stylesheet" href="<c:url value="/style/font-awesome.css" />">
-  <link href="<c:url value="/css/style.css" />" rel="stylesheet">
+  <link href="<c:url value="/style/style.css" />" rel="stylesheet">
   <!-- HTML5 Support for IE -->
   <!--[if lt IE 9]>
   <script src="js/html5shim.js"></script>
@@ -48,7 +48,7 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="control-label col-lg-3" for="mobile">用戶名</label>
+                      <label class="control-label col-lg-3" for="mobile">手机号</label>
                       <div class="col-lg-9">
                         <input type="text" class="form-control" id="mobile" name="mobile" placeholder="手机号">
                       </div>

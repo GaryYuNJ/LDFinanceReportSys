@@ -31,11 +31,40 @@ public class URole  implements Serializable{
     /**角色名称*/
     private String name;
     /**角色类型*/
-    private String type;
+    private String code;
+    
+    private Long appointmentId;
     //***做 role --> permission 一对多处理
     private List<UPermission> permissions = new LinkedList<UPermission>();
     
-    public Long getId() {
+    private UAppointments appointment;
+    
+    
+	public Long getAppointmentId() {
+		return appointmentId;
+	}
+
+	public void setAppointmentId(Long appointmentId) {
+		this.appointmentId = appointmentId;
+	}
+
+	public UAppointments getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(UAppointments appointment) {
+		this.appointment = appointment;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -51,10 +80,6 @@ public class URole  implements Serializable{
         this.name = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public List<UPermission> getPermissions() {
 		return permissions;
 	}
@@ -63,9 +88,6 @@ public class URole  implements Serializable{
 		this.permissions = permissions;
 	}
 
-	public void setType(String type) {
-        this.type = type;
-    }
     public String toString(){
     	return JSONObject.fromObject(this).toString();
     }

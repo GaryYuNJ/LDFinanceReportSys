@@ -22,6 +22,7 @@ public interface URoleMapper {
 	Set<String> findRoleByUserId(Long id);
 
 	List<URole> findNowAllPermission(Map<String, Object> map);
+	List<URole> findAllNoPage();
 	
-	void initData();
+	//void initData();
 }

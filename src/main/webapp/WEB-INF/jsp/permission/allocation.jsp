@@ -49,7 +49,7 @@
 							<c:forEach items="${page.list}" var="it">  
 								<tr>
 									<td>${it.name}</td>
-									<td>${it.type}</td>
+									<td>${it.code}</td>
 									<td permissionIds="${it.permissionIds}">
 										${it.permissionNames}
 									</td>

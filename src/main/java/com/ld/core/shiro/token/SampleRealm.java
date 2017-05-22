@@ -25,23 +25,8 @@ import com.ld.user.service.UUserService;
 
 
 /**
- * 
- * 开发公司：在线工具 <p>
- * 版权所有：© <p>
- * 博客地址：http:///blog/  <p>
- * <p>
- * 
- * shiro 认证 + 授权   重写
- * 
- * <p>
- * 
- * 区分　责任人　日期　　　　说明<br/>
- * 2016年6月2日 　<br/>
- *
  * @author 
  *   
- * @version 1.0,2016年6月2日 <br/>
- * 
  */
 public class SampleRealm extends AuthorizingRealm {
 
@@ -75,7 +60,7 @@ public class SampleRealm extends AuthorizingRealm {
 			user.setLastLoginTime(new Date());
 			userService.updateByPrimaryKeySelective(user);
 		}
-		return new SimpleAuthenticationInfo(user,user.getPswd(), getName());
+		return new SimpleAuthenticationInfo(user, user.getPswd(), getName());
     }
 
 	 /** 
