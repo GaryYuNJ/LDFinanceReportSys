@@ -223,6 +223,7 @@ CREATE TABLE `c_invalid_capital` (
   `desc` varchar(64) default null COMMENT '描述',
   `date` date NOT NULL  COMMENT '日期',
   `amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '金额', 
+  `change_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '与昨日差异', 
   PRIMARY KEY (`id`),
   FOREIGN KEY (sub_company_id) REFERENCES c_sub_company(id) ON DELETE CASCADE,
   FOREIGN KEY (invalid_capital_type_id) REFERENCES c_invalid_capital_type(id) 
@@ -246,16 +247,49 @@ CREATE TABLE `c_his_invalid_capital` (
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 
+/* 工抵余额纪录 表*/
+DROP TABLE IF EXISTS `c_gongdi_balance`;
+
+CREATE TABLE c_gongdi_balance ( 
+    id            	bigint(20) NOT NULL AUTO_INCREMENT,
+    date          	date COMMENT '日期'  NOT NULL,
+    amount        	decimal(12,5) COMMENT '工抵余额' default  0,
+    sub_company_id	bigint(3) COMMENT '子公司ID'  NOT NULL ,
+     PRIMARY KEY (`id`),
+     FOREIGN KEY (sub_company_id) REFERENCES c_sub_company(id) ON DELETE CASCADE
+    )ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 
+COMMENT = '工抵余额信息' ;
+
 
 /* sms 记录表 */
 DROP TABLE IF EXISTS `c_sms_record`;
 
 CREATE TABLE `c_sms_record` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `content` TEXT NOT NULL COMMENT 'sms内容',
+  `content1` TEXT NOT NULL COMMENT '资金余额',
+  `content2` TEXT NOT NULL COMMENT '可用资金差异',
+  `content3` TEXT NOT NULL COMMENT '收入明细',
+  `content4` TEXT NOT NULL COMMENT '支出明细',
+  `content5` TEXT NOT NULL COMMENT '工抵余额',
+  `content6` TEXT NOT NULL COMMENT '合资公司',
+  `content7` TEXT NOT NULL COMMENT '扩展字段',
+  `content8` TEXT NOT NULL COMMENT '扩展字段',
+  `content9` TEXT NOT NULL COMMENT '扩展字段',
   `date` date NOT NULL  COMMENT '日期',
   `random_code` varchar(64) NOT NULL COMMENT '访问随机码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
+
+/* 资金数据提交状态*/
+DROP TABLE IF EXISTS `c_process_status`;
+
+CREATE TABLE `c_process_status` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sub_company_id` bigint(3) NOT NULL COMMENT '子公司ID',
+  `date` date NOT NULL  COMMENT '日期',
+  `status` bigint(1) NOT NULL  DEFAULT 0 COMMENT '0 保存未提交；1 已上报；-1 被撤回', 
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (sub_company_id) REFERENCES c_sub_company(id) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 

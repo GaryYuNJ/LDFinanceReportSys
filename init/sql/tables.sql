@@ -155,7 +155,7 @@ CREATE TABLE `user_project_rel` (
   `user_id` bigint(20) NOT NULL COMMENT '用户',
   `project_id` bigint(20) NOT NULL COMMENT '项目Id',
   `appointments_id` bigint(3) NOT NULL COMMENT '职位Id',
-  `relation_type` bigint(1) NOT NULL  DEFAULT 1 COMMENT '1原配，2转岗再分配，3离职再分配', 
+  `status` bigint(1) NOT NULL  DEFAULT 1 COMMENT '1在岗，2已转岗，3已离职', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -174,7 +174,7 @@ DROP TABLE IF EXISTS `house_status`;
 
 CREATE TABLE `house_status` (
   `id` bigint(2) NOT NULL ,
-  `name` varchar(20) NOT NULL COMMENT '房源状态名称',
+  `name` varchar(20) NOT NULL COMMENT '房源状态名称。1.在售，2.已收诚意金，3.已签约,4.已交房，5.已结佣,6.已退房',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
@@ -186,7 +186,7 @@ DROP TABLE IF EXISTS `house_sale_type`;
 
 CREATE TABLE `house_sale_type` (
   `id` bigint(2) NOT NULL ,
-  `name` varchar(20) NOT NULL COMMENT '房源销售类型',
+  `name` varchar(20) NOT NULL COMMENT '房源销售类型. 普通、团购/大单、正常工抵、集中工抵，定向销售，工抵转自销',
   `dimission_avaliable` bigint(1)  NOT NULL DEFAULT 1 COMMENT '是否计算佣金；0 不计算佣金；1 需要计算佣金', 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
@@ -262,7 +262,7 @@ DROP TABLE IF EXISTS `house`;
 
 CREATE TABLE `house` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type_id`  bigint(2) NOT NULL COMMENT '房源类型：大卡，小卡，签约，认购',
+  `type_id`  bigint(2) default NULL COMMENT '房源类型：大卡，小卡，签约，认购',
   `building_id` bigint(20) NOT NULL COMMENT '楼栋id外键',
   `status_id` bigint(2) NOT NULL COMMENT '房源状态id外键',
   `sale_type_id` bigint(2) NOT NULL COMMENT '销售类型id',
@@ -270,12 +270,14 @@ CREATE TABLE `house` (
   `business_sub_type_id` bigint(2) NOT NULL COMMENT '业态细类id',
   `erp_code` varchar(50) unique COMMENT 'house erp code',
   `erp_name` varchar(50) DEFAULT NULL  COMMENT 'house erp name',
+  `is_large_amount` bigint(1) NOT NULL DEFAULT 0 COMMENT '是否大单定制',
   `erp_sale_code` varchar(50) DEFAULT NULL  COMMENT '销售凭证',
   `customer_code` varchar(50) DEFAULT NULL  COMMENT '客户编码',
   `customer_name` varchar(20) DEFAULT NULL  COMMENT '客户名称',
   `customer_mobile` varchar(20) DEFAULT NULL  COMMENT '客户手机号',
   `customer_number` varchar(20) DEFAULT NULL  COMMENT '客户身份证号码',
   `pre_size` DECIMAL(12,5) NOT NULL COMMENT '预售面积',
+  `pre_unit_price` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '签约表单价', 
   `real_size` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '真实面积，平方米', 
   `is_carry_forward` bigint(1) NOT NULL DEFAULT 0 COMMENT '是否结转收入',
   `carry_forward_income` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '结转收入金额', 
@@ -329,7 +331,11 @@ CREATE TABLE `user_house_rel` (
 DROP TABLE IF EXISTS `earnest_money`;
 CREATE TABLE `earnest_money` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `house_id` bigint(20) NOT NULL COMMENT '房源Id',
+  `project_id` bigint(20) NOT NULL COMMENT '项目id外键',
+  `house_id` bigint(20) default NULL COMMENT '房源Id',
+  `customer_code` varchar(50) DEFAULT NULL  COMMENT '客户编码',
+  `customer_name` varchar(20) DEFAULT NULL  COMMENT '客户名称',
+  `customer_mobile` varchar(20) DEFAULT NULL  COMMENT '客户手机号',
   `pos_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT 'pos金额', 
   `cash_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '现金金额', 
   `bank_bill_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '银行票据金额', 
@@ -338,19 +344,22 @@ CREATE TABLE `earnest_money` (
   `pay_type` bigint(1) NOT NULL COMMENT '收款方式；1 现金/2 pos/3 银行转账', 
   `bank_name` varchar(50) DEFAULT NULL COMMENT '入账行',
   `receipt_company` varchar(50) DEFAULT NULL COMMENT '出票单位',
-  `bank_bill_type` bigint(1) NOT NULL  DEFAULT 1 COMMENT '银行票据；1 本票/2 支票/3 汇票', 
+  `bank_bill_type` bigint(1) NOT NULL  DEFAULT 1 COMMENT 's行票据；1 本票/2 支票/3 汇票', 
   `convert_house_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '转房款金额', 
   `refund_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '退款金额', 
+  `refund_type` bigint(1) NOT NULL DEFAULT 1 COMMENT '退款方式；1银行网银、2现金、3支票、4本票', 
   `remain_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '结余金额', 
   `receipt_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '换据金额', 
   `status` bigint(1) NOT NULL  DEFAULT 1 COMMENT '状态，1 已收款，2 已退款，3 已转房款', 
   `refund_check_number` varchar(50) DEFAULT NULL COMMENT '退款支票号',
+  `refund_time` datetime DEFAULT NULL COMMENT '退转日期',
   `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`),
-  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE
+  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE,
+  FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 
@@ -475,11 +484,13 @@ DROP TABLE IF EXISTS `money_pay_detail`;
 
 CREATE TABLE `money_pay_detail` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `project_id` bigint(20) NOT NULL COMMENT '项目id外键',
+  `house_id` bigint(20) DEFAULT NULL COMMENT '房源Id',
   `contract_money_id` bigint(20) DEFAULT NULL COMMENT '合同金额id；如果不是合同金额，置空',
   `money_type_id` bigint(2) NOT NULL COMMENT '金额类型:0 诚意金，1 定金, 2 一次性付款, 3 首付款, 4 公积金按揭款, 5 商业按揭款，6 交房发票, 7 违约金, 8 面积差，9 预收房款，10 工抵',
   `pay_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '金额', 
   `pay_time` datetime DEFAULT NULL COMMENT '收款时间',
-  `pay_type` bigint(1) NOT NULL default 1 COMMENT '收款方式；1 现金/2 pos/3 银行转账', 
+  `pay_type` bigint(1) NOT NULL default 1 COMMENT '收款方式；1 现金/2 pos/3 银行转账/ 4 银行票据', 
   `bank_name` varchar(50) DEFAULT NULL COMMENT '入账行',
   `bank_bill_type` bigint(1) NOT NULL  DEFAULT 1 COMMENT '银行票据；1 本票/2 支票/3 汇票', 
   `bank_bill_number` varchar(50) DEFAULT NULL COMMENT '银行票据号',
@@ -494,14 +505,29 @@ CREATE TABLE `money_pay_detail` (
   `erp_late_fee_ratio` bigint(2) NOT NULL DEFAULT 0 COMMENT 'ERP违约金率',
   `erp_late_fee` DECIMAL(12,5) DEFAULT 0 COMMENT 'ERP违约金',
   `is_dimission_calculate` bigint(1) NOT NULL DEFAULT 0 COMMENT '佣金是否已计算：0 未计算，1 已计算; 只针对 合同金额', 
+  
+  `customer_code` varchar(50) DEFAULT NULL  COMMENT '客户编码',
+  `customer_name` varchar(20) DEFAULT NULL  COMMENT '客户名称',
+  `customer_mobile` varchar(20) DEFAULT NULL  COMMENT '客户手机号',
+  `convert_house_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '诚意金相关：转房款金额', 
+  `refund_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '退款金额', 
+  `refund_type` bigint(1) NOT NULL DEFAULT 1 COMMENT '退款方式；1银行网银、2现金、3支票、4本票', 
+  `remain_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '诚意金相关：结余金额', 
+  `receipt_amount` DECIMAL(12,5) NOT NULL  DEFAULT 0 COMMENT '诚意金相关：换据金额', 
+  `status` bigint(1) NOT NULL  DEFAULT 1 COMMENT '诚意金相关：状态，1 已收款，2 已退款，3 已转房款', 
+  `refund_check_number` varchar(50) DEFAULT NULL COMMENT '诚意金相关：退款支票号',
+  `refund_time` datetime DEFAULT NULL COMMENT '诚意金相关：退转日期',
+
   `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`),
+  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE,
   FOREIGN KEY (contract_money_id) REFERENCES contract_money(id),
   FOREIGN KEY (money_type_id) REFERENCES money_type(id),
-  FOREIGN KEY (overdue_reason_id) REFERENCES overdue_reason(id) 
+  FOREIGN KEY (overdue_reason_id) REFERENCES overdue_reason(id),
+  FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 
@@ -511,6 +537,8 @@ DROP TABLE IF EXISTS ` receipt_invoice_data`;
 
 CREATE TABLE `receipt_invoice_data` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `project_id` bigint(20) NOT NULL COMMENT '项目id外键',
+  `house_id` bigint(20) DEFAULT NULL COMMENT '房源Id',
   `pay_detail_id` bigint(20) DEFAULT NULL COMMENT '支付记录Id；如果没有对应支付记录，置空',
   `money_type_id` bigint(2) NOT NULL COMMENT '金额类型:0 诚意金，1 定金, 2 一次性付款, 3 首付款, 4 公积金按揭款, 5 商业按揭款，6 交房发票, 7 违约金, 8 面积差，9 预收房款，10 工抵',
   `type` bigint(1) NOT NULL COMMENT '票据类型：1收据/ 2 普票/ 3 专票',
@@ -530,8 +558,10 @@ CREATE TABLE `receipt_invoice_data` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_user` bigint(20) DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`id`),
+  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE,
   FOREIGN KEY (money_type_id) REFERENCES money_type(id),
-  FOREIGN KEY (pay_detail_id) REFERENCES money_pay_detail(id)  ON DELETE CASCADE
+  FOREIGN KEY (pay_detail_id) REFERENCES money_pay_detail(id)  ON DELETE CASCADE,
+  FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 
@@ -658,12 +688,13 @@ DROP TABLE IF EXISTS `project_bizsubtype_commission`;
 
 CREATE TABLE `project_bizsubtype_commission` (
   `project_id` bigint(20) NOT NULL COMMENT '项目Id',
-  `business_sub_type_id` bigint(2) NOT NULL COMMENT '业态大类id',
+  `business_sub_type_id` bigint(2) NOT NULL COMMENT '业态细类 id',
   `appointments_id` bigint(3) NOT NULL COMMENT '职务id',
   `fixed_commission` DECIMAL(12,5) default 0 COMMENT '职位对应的固定金额佣金', 
   `ratio_commission` DECIMAL(12,5) default 0 COMMENT '职位对应的佣金提点', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   FOREIGN KEY (business_sub_type_id) REFERENCES house_business_sub_type(id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE,
   FOREIGN KEY (appointments_id) REFERENCES u_appointments(id) ON DELETE CASCADE
@@ -680,6 +711,7 @@ CREATE TABLE `project_biztype_commission` (
   `ratio_commission` DECIMAL(12,5) default 0 COMMENT '职位对应的佣金提点', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   FOREIGN KEY (business_type_id) REFERENCES house_business_type(id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE,
   FOREIGN KEY (appointments_id) REFERENCES u_appointments(id) ON DELETE CASCADE
@@ -831,6 +863,7 @@ CREATE TABLE `house_money_paid_daily_commission` (
   `daily_commission_ratio` bigint(3) default 0 COMMENT '日结佣金可提取比例', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
    FOREIGN KEY (business_sub_type_id) REFERENCES house_business_sub_type(id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
@@ -846,12 +879,13 @@ CREATE TABLE `project_biztype_daily_commission` (
   `daily_commission_ratio` bigint(3) default 0 COMMENT '日结佣金可提取比例', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   FOREIGN KEY (business_type_id) REFERENCES house_business_type(id) ON DELETE CASCADE,
   FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `project_biztype_daily_commission` 项目应的  资金到账与日结佣金提取比例关系 */
-DROP TABLE IF EXISTS `project__daily_commission`;
+DROP TABLE IF EXISTS `project_daily_commission`;
 CREATE TABLE `project_daily_commission` (
   `project_id` bigint(20) NOT NULL COMMENT '项目Id',
   `money_paid_ratio_start` bigint(3) NOT NULL COMMENT '资金到账最小比例',
@@ -859,6 +893,7 @@ CREATE TABLE `project_daily_commission` (
   `daily_commission_ratio` bigint(3) default 0 COMMENT '日结佣金可提取比例', 
   `start_time` datetime NOT NULL COMMENT '关系挂靠开始时间', 
   `end_time` datetime NOT NULL COMMENT '关系挂靠结束时间', 
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
   FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
@@ -940,7 +975,7 @@ CREATE TABLE `house_appoint_commission_record` (
 
 /*
  * ************人员与 房源、职位的佣金/奖金记录关系表***************
-Table structure for table `user_house_appoint_commission_record`人员与 房源、职位的佣金/奖金记录关系表 */
+Table structure for table `user_house_appoint_commission_record`人员与 房源、职位的佣金/奖金发放记录关系表 */
 DROP TABLE IF EXISTS `user_house_appoint_commission_record`;
 
 CREATE TABLE `user_house_appoint_commission_record` (
@@ -948,11 +983,13 @@ CREATE TABLE `user_house_appoint_commission_record` (
   `user_id` bigint(20) NOT NULL COMMENT '指定的用户',
   `house_id` bigint(20) NOT NULL unique COMMENT '房源Id',
   `house_appoint_commission_id` bigint(20) NOT NULL unique COMMENT '房源与职位 的 佣金/奖金记录表 id',
-  `ratio` DECIMAL(12,5) default 0 COMMENT '占对应职位佣金的比重', 
-  `replacer` bigint(1) NOT NULL default 1 COMMENT '是否替换人员：0 不是/1 是',
+  `ratio` DECIMAL(12,5) default 100 COMMENT '占对应职位佣金的比重', 
+  `is_replacer` bigint(1) NOT NULL default 1 COMMENT '是否替换人员：0 不是/1 是',
   `commission_amount` DECIMAL(12,5) default 0 COMMENT '佣金金额', 
   
-  `status` bigint(1) NOT NULL default 1 COMMENT '状态：1 保存/2 提交/3 批准/4 已发放',
+  `status` bigint(1) NOT NULL default 1 COMMENT '状态：1 保存/2 提交/3 批准/4 已发放/ 5 已失效',
+  `pay_month` date NOT NULL COMMENT '发放月份',
+  
   `submitter` bigint(20) NOT NULL COMMENT '提交人',
   `submit_time` datetime NOT NULL COMMENT '提交时间',
   `approver` bigint(20) NOT NULL COMMENT '批准人',
@@ -969,6 +1006,89 @@ CREATE TABLE `user_house_appoint_commission_record` (
 
 
 
+/*
+ * ************退房引起的佣金扣减记录表-只针对职业顾问***************
+Table structure for table `user_house_return_commission_record`退房引起的佣金扣减记录表 -只针对职业顾问*/
+DROP TABLE IF EXISTS `user_house_return_commission_record`;
+
+CREATE TABLE `user_house_return_commission_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL COMMENT '指定的用户',
+  `house_id` bigint(20) NOT NULL unique COMMENT '房源Id',
+  `deduct_amount` DECIMAL(12,5) default 0 COMMENT '扣减佣金金额', 
+  
+  `status` bigint(1) NOT NULL default 1 COMMENT '状态：1 保存/2 提交/3 批准/4 已扣减',
+  `deduct_month` date NOT NULL COMMENT '扣减月份',
+  
+  `submitter` bigint(20) NOT NULL COMMENT '提交人',
+  `submit_time` datetime NOT NULL COMMENT '提交时间',
+  `approver` bigint(20) NOT NULL COMMENT '批准人',
+  `approve_time` datetime NOT NULL COMMENT '批准时间',
+  
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES u_user(id) ,
+  FOREIGN KEY (submitter) REFERENCES u_user(id) ,
+  FOREIGN KEY (approver) REFERENCES u_user(id) 
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+/*
+ * ************佣金扣减记录表 - 只针对职业顾问***************
+Table structure for table `user_house_deduct_commission_record`佣金扣减记录表 - 只针对职业顾问 */
+DROP TABLE IF EXISTS `user_house_deduct_commission_record`;
+
+CREATE TABLE `user_house_deduct_commission_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL COMMENT '指定的用户',
+  `house_id` bigint(20) NOT NULL unique COMMENT '房源Id',
+  `deduct_type` bigint(1) NOT NULL default 1 COMMENT '状态：1 违约引起的佣金扣减/2 其他',
+  `deduct_amount` DECIMAL(12,5) default 0 COMMENT '扣减佣金金额', 
+  
+  `paid_amount` DECIMAL(12,5) default 0 COMMENT '已支付房款金额(只关注违约情况下的佣金扣减)', 
+  `unpaid_amount` DECIMAL(12,5) default 0 COMMENT '未支付房款金额(只关注违约情况下的佣金扣减)', 
+  `pay_last_date` date NOT NULL COMMENT '应到帐时间(只关注违约情况下的佣金扣减)',
+  
+  `status` bigint(1) NOT NULL default 1 COMMENT '状态：1 保存/2 提交/3 批准/4 已扣减',
+  `deduct_month` date NOT NULL COMMENT '扣减月份',
+  
+  `submitter` bigint(20) NOT NULL COMMENT '提交人',
+  `submit_time` datetime NOT NULL COMMENT '提交时间',
+  `approver` bigint(20) NOT NULL COMMENT '批准人',
+  `approve_time` datetime NOT NULL COMMENT '批准时间',
+  
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (house_id) REFERENCES house(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES u_user(id) ,
+  FOREIGN KEY (submitter) REFERENCES u_user(id) ,
+  FOREIGN KEY (approver) REFERENCES u_user(id) 
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+
+
+/*
+ * ***********每月员工佣金记录表***************
+Table structure for table `user_monthly_rewards_punishment_record`每月奖惩记录表 
+如果此表找不到当月对应员工的奖惩记录，按照已计算出佣金的百分百发放
+*/
+DROP TABLE IF EXISTS `user_monthly_rewards_punishment_record`;
+
+CREATE TABLE `user_monthly_rewards_punishment_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `month` date NOT NULL COMMENT '指定的月份',
+  `user_id` bigint(20) NOT NULL COMMENT '指定的用户',
+  `rewards_amount` DECIMAL(12,5) default 0 COMMENT '当月奖罚金额,正数代表奖金，负数代表罚金',
+  `commission_ratio` DECIMAL(3,2) default 100 COMMENT '当月可提佣金的百分比(根据当月指标完成情况来定)',
+  
+  `submitter` bigint(20) NOT NULL COMMENT '提交人',
+  `submit_time` datetime NOT NULL COMMENT '提交时间',
+  
+  `remark` varchar(250) DEFAULT NULL  COMMENT '备注',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (user_id) REFERENCES u_user(id) ,
+  FOREIGN KEY (submitter) REFERENCES u_user(id) 
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 
 /*
@@ -979,7 +1099,7 @@ DROP TABLE IF EXISTS `user_monthly_commission_record`;
 CREATE TABLE `user_monthly_commission_record` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL COMMENT '指定的用户',
-  
+  `month` date NOT NULL COMMENT '指定的月份',
   `fixed_commission_amount` DECIMAL(12,5) default 0 COMMENT '当月固定佣金总金额', 
   `daily_commission_amount` DECIMAL(12,5) default 0 COMMENT '当月日结佣金总金额', 
   `quarter_commission_amount` DECIMAL(12,5) default 0 COMMENT '该季度结佣金总金额', 
